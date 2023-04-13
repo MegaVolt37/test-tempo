@@ -1,0 +1,30 @@
+@import "./fonts.scss";
+body {
+  background-color: $blue-super-light;
+}
+.container {
+  max-width: 1880px;
+  padding: 0 40px;
+  width: 100%;
+  margin: 0 auto;
+}
+.title__page {
+  @extend %text-800-32;
+  color: $black;
+}
+.section {
+  padding-top: 50px;
+  padding-bottom: 40px;
+}
+.border-active {
+  border: 1px solid $blue;
+}
+@media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+  .section {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+}
