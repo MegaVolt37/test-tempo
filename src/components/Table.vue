@@ -1,7 +1,7 @@
 <template>
   <div class="table__wrapper">
     <div class="sorting__mobile">
-      <Select v-if="widthWindow < 768" :list="listTableHead" @selectItem="sortingClickedMobile" />
+      <Select v-if="widthWindow <= 768" :list="listTableHead" @selectItem="sortingClickedMobile" />
       <ButtonsSorting @sorting="sortingClicked" />
     </div>
     <table class="table" v-show="readSearchName.length">
@@ -112,8 +112,8 @@ export default {
       ) : this.listTableBody;
     },
     readMobileHead() {
-      if (this.widthWindow < 768) {
-        return this.listTableBody.length
+      if (this.widthWindow <= 768) {
+        return this.readSearchName.length
       } else {
         return 1
       }

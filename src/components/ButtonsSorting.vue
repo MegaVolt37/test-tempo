@@ -29,7 +29,10 @@ export default {
   methods: {
     sortingClicked() {
       const query = this.$route.query.sorting
-      this.$emit('sorting', query)
+      if (query) {
+        this.$emit('sorting', query)
+
+      }
     },
   },
   components: {
@@ -61,6 +64,7 @@ export default {
       transform: rotateZ(180deg);
     }
   }
+
   button.active {
     background-color: $blue;
   }
