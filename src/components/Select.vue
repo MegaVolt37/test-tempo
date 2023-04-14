@@ -39,7 +39,7 @@ export default {
     mountSelect() {
       const query = this.$route.query.sorting
       const res = this.list.find(el => el.id == query)
-      this.select = res.title
+      this.select = res ? res?.title : '';
     },
 
   },
@@ -59,6 +59,7 @@ export default {
 <style lang="scss">
 .select {
   position: relative;
+  flex: 1;
 
   &__top {
     display: grid;

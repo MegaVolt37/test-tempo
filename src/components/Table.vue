@@ -1,13 +1,16 @@
 <template>
   <div class="table__wrapper">
-    <Select v-if="widthWindow < 768" :list="listTableHead" @selectItem="sortingClickedMobile" />
+    <div class="sorting__mobile">
+      <Select v-if="widthWindow < 768" :list="listTableHead" @selectItem="sortingClickedMobile" />
+      <ButtonsSorting @sorting="sortingClicked" />
+    </div>
     <table class="table" v-show="readSearchName.length">
       <thead class="table__head" v-for="index in readMobileHead" :key="index">
         <th class="table__head-item" v-for="(item, index) in listTableHead" :key="item.title"
-          @click="sortingClicked(item.id, index)">{{
+          @click="sortingClickedFull(item.id, index)">{{
             item.title
           }}
-          <IconArrow @click="sortingClicked(item.id, index)" :style="styleArrow(item.id, index)" />
+          <IconArrow @click="sortingClickedFull(item.id, index)" :style="styleArrow(item.id, index)" />
         </th>
       </thead>
       <tbody class="table__body">
@@ -35,6 +38,8 @@
 import LineProgress from "@/components/LineProgress.vue";
 import CircleProgress from "@/components/CircleProgress.vue";
 import Select from "@/components/Select.vue";
+import ButtonsSorting from "@/components/ButtonsSorting.vue";
+
 import IconArrow from "@/components/icons/Arrow.vue";
 
 import axios from "axios";
@@ -123,21 +128,24 @@ export default {
       }
       this.$router.push({ query: { ...this.$route.query, sorting: id } });
     },
-    sortingClicked(id, idx) {
+    sortingClickedFull(id, idx) {
       if (this.widthWindow > 768) {
-        this.activeIndex = idx;
-        const sortingQueryParam = this.$route.query.sorting || '';
-        if (sortingQueryParam.indexOf(id) != -1 && sortingQueryParam.includes('-')) {
-          id = sortingQueryParam.replace('-', '');
-        } else {
-          id = '-' + id;
-        }
-        const sortingType = sortFunctions[id];
-        if (sortingType) {
-          this.listTableBody = this.listTableBody.sort(sortingType);
-        }
-        this.$router.push({ query: { ...this.$route.query, sorting: id } });
+        this.sortingClicked(id, idx)
       }
+    },
+    sortingClicked(id, idx) {
+      this.activeIndex = idx;
+      const sortingQueryParam = this.$route.query.sorting || '';
+      if (sortingQueryParam.indexOf(id) != -1 && sortingQueryParam.includes('-')) {
+        id = sortingQueryParam.replace('-', '');
+      } else {
+        id = '-' + id;
+      }
+      const sortingType = sortFunctions[id];
+      if (sortingType) {
+        this.listTableBody = this.listTableBody.sort(sortingType);
+      }
+      this.$router.push({ query: { ...this.$route.query, sorting: id } });
     },
     sortingMounted(id) {
       const sortingType = sortFunctions[id];
@@ -218,6 +226,7 @@ export default {
     LineProgress,
     CircleProgress,
     Select,
+    ButtonsSorting,
     IconArrow,
   },
 }
@@ -322,6 +331,10 @@ export default {
   }
 }
 
+.sorting__mobile {
+  display: none;
+}
+
 @media (max-width: 1366px) {
   .table__wrapper {
     overflow-x: auto;
@@ -390,6 +403,13 @@ export default {
         }
       }
     }
+  }
+
+  .sorting__mobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
   }
 }
 </style>
