@@ -147,7 +147,7 @@ export default {
     },
     async getUsers() {
       try {
-        const { data } = await axios.get('/applicants');
+        const { data } = await axios.get('/test-tempo/applicants.json');
         this.listTableBody = data;
         const queryParams = this.$route.query?.sorting;
         if (queryParams) {
